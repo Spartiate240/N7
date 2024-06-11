@@ -1,0 +1,119 @@
+% Compte-rendu minimal du mini-projet SDA : LCA et TH
+% Auteur : DUROLLET Pierre
+% Groupe de TP : H
+
+
+**Consigne :** Vous devez écrire vos réponse à la place des ... en laissant
+une ligne vide avant et deux après votre réponse.
+
+**Remarque :** Ce document utilise le langage Markdown. On peut en engendrer
+une version PDF en faisant par exemple :
+
+~~~
+pandoc --toc -N -o LISEZ-MOI.pdf LISEZ-MOI.txt
+~~~
+
+
+# Exercice 1
+
+## Question 1.4
+
+**Indiquer les inconvénients/avantages d'une implantation par listes chaînées
+d'une SDA.**
+En avantages:
+    On peut aussi avoir des "indices" qui correspondent directement à des 
+    variables logiques en fonction de la situation sans avoir besoin de leur
+    associer les indices(qui en plus peuvent changer)
+        exemple: on peut associer directement la taille d'une personne à une 
+                clé 'taille' au lieu de devoir noter que la taille corresponds
+                à l'indice n.
+
+En incovénients:
+    Impossibilité de trier les éléments ou d'avoir plusieurs valeurs pour une
+    même clé.
+
+    ne permets pas de simuler un tableau où une donnée pour différents dictionnaires
+    auraient les mêmes indices.
+
+
+
+
+
+
+# Évaluation expérimentale.
+
+## Performance comparée de LCA et TH
+
+Indiquer ici les résultats obtenus.
+
+Pour:
+Borne = 100
+
+Taille = 10000 
+résultat:
+LCA: 0.256s
+TH: 0.053s
+
+
+Taille = 100000
+résultat:
+LCA: 28.085s
+TH: 4.302s
+
+
+Taille = 1000000
+LCA:4m43.037s
+TH: 42.732s
+
+donc le TH est environ 10x plus rapide que le LCA.
+## Qualité du générateur aléatoire
+
+Indiquer les conclusions quant à la qualité du générateur aléatoire.
+Taille :10000
+Lca :
+124-77 = 47
+th :
+122-75 = 47
+
+taille :100000 :
+lca :
+1098-930 = 168
+
+th :
+ 1093-908 = 185
+
+Donc quand on rapporte à la taille des échantillons, on a une différence qui tends 
+vers 0, ce qui montre un générateur de bonne qualité.
+
+
+
+
+# Principales difficultés rencontrées
+
+Indiquer ici les principales difficultés rencontrées lors de la réalisation de
+ce projet et comment elles ont été surmontées ou contournéeS.
+
+Surtout la prise en main des procédures de lca (surtout le fait d'utiliser 
+les Sda.all.suivant et autres).
+
+
+
+
+# Informations complémentaires
+
+Indiquer ici les informations qui pourraient aider à la compréhension du
+travail réalisé.
+
+Cette partie peut être vide.
+
+...
+
+
+
+# Bilan personnel
+
+Quel bilan personnel tirez-vous de ce mini-projet ?
+
+Qu'un programme ne consiste pas uniquement à l'écriture du code mais peut aussi avoir besoin de coder les packages et modules, et qu'il ne faut pas les négliger.
+Mais également qu'il ne faut pas négliger les pertes de mémoire car c'est important même si elles ne sont pas explicitement montrées.
+

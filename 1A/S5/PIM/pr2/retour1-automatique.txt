@@ -1,0 +1,112 @@
+% Validation de pr2
+% 2023-11-21 10:07:55.390876
+
+
+################################################################################
+# Modification des fichiers fournis
+################################################################################
+
+
+================================================================================
+## Fichiers qui NE devaient PAS être modifiés
+================================================================================
+
+* Fichier alea.adb non modifié... ok
+* Fichier alea.ads non modifié... ok
+* Fichier exemple_alea.adb non modifié... ok
+* Fichier exemple_unbounded_string.adb non modifié... ok
+* Fichier sda_exceptions.ads non modifié... ok
+* Fichier test_lca.adb non modifié... ERREUR
+
+  | 51a52,65
+  | > 
+  | > 
+  | > 	procedure Afficher_Avec_Guillemets (S : in Unbounded_String) is
+  | > 	begin
+  | > 		Put (Avec_Guillemets (S));
+  | > 	end Afficher_Avec_Guillemets;
+  | > 
+  | > 	procedure Afficher (N: in Integer) is 
+  | > 	begin
+  | > 		Put (N, 1);
+  | > 	end;
+  | > 
+  | > 	procedure Afficher_Interne is
+  | > 		new Afficher_Debug(Afficher_Avec_Guillemets, Afficher);
+  | 82a97
+  | > 				Afficher_Interne (Annuaire); New_Line;
+
+
+================================================================================
+## Fichiers qui DEVAIENT être modifiés
+================================================================================
+
+* Fichier lca_sujet.adb modifié... ERREUR
+* Fichier lca.ads modifié... ok
+* Fichier lca.adb modifié... ok
+
+
+################################################################################
+# Nettoyer
+################################################################################
+
+* Running gnatclean... ok
+
+
+################################################################################
+# Exercice 1
+################################################################################
+
+
+================================================================================
+## Modifications de lca.ads
+================================================================================
+
+* Comparaison de lca.ads et fournis/lca.ads... différents
+
+   |         type T_Cellule is limited private;                                                <
+   |         type T_LCA is access T_Cellule;                                                   |          -- TODO : a completer
+   |                                                                                           <
+   |         type T_Cellule  is                                                                <
+   |                 record                                                                    <
+   |                         Cle : T_Cle;                                                      <
+   |                         Valeur : T_Valeur;                                                <
+   |                         Suivant : T_LCA;                                                  <
+   |                 end record;                                                               <
+
+
+================================================================================
+## Exécution de lca_sujet.adb
+================================================================================
+
+* Compilation de lca_sujet.adb... ERREUR
+
+  | lca_sujet.adb:1:01: compilation unit expected
+  | gnatmake: "lca_sujet.adb" compilation error
+
+
+================================================================================
+## Exécution de test_lca.adb
+================================================================================
+
+* Compilation de test_lca.adb... ok
+
+  | test_lca.adb:259:17: warning: variable "Inutile" is assigned but never read
+  | test_lca.adb:282:35: warning: formal parameter "Cle" is not referenced
+  | lca.adb:1:09: warning: no entities of "Ada.Text_IO" are referenced
+  | lca.adb:1:30: warning: use clause for package "Text_IO" has no effect
+
+* ./test_lca... ERREUR
+
+  ! raised TEST_LCA.TESTER_POUR_CHAQUE_SOMME_LEN4_AVEC_EXCEPTION.SOMMER_LEN4_AVEC_EXCEPTION.NOUVELLE_EXCEPTION : test_lca.adb:353
+
+* Exécution avec valgrind... NON LANCÉE (car erreur sans valgrind)... 
+
+
+################################################################################
+# Nettoyer
+################################################################################
+
+* Running gnatclean... ok
+
+<!-- vi: set ts=8: -->
