@@ -1,0 +1,11 @@
+savoir ce qu'est 
+pour affecter un nom à une @ ip, on peut soit mettre dans le DNS, soit dans le client, si dans DNS, on change 1 ligne dans le fichier de conf dhcp
+
+routage privé
+	changer les options dans les fichiers dhcp des boxes
+
+
+grilles:
+dhcp, nat
+routage dynamique
+filtrage

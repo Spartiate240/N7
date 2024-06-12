@@ -1,0 +1,53 @@
+Chap 1:
+
+EXERCICE 1:
+
+pour dessiner, aller voir les capsules
+cas Ethernet:
+
+temps "d'upload" emission:
+te = L/c = (10*10³)/(10*10⁶) = 10 ms
+temps de propagation:
+tp = d/v = 200/(200000*10³) = 1 micros
+
+ttot =10.001ms 
+
+cas satellite:
+
+te = L/c = 100*10³/(1*10⁶) = 100ms
+tp = d/v = 72000*10³/300000*10³ = 240ms
+
+ttot = 340ms
+
+
+EXERCICE 2:
+
+** Quand paquet 1 est arrivé en R1, il est directement envoyé sur R2, pendant que paquet 2 est envoyé ect...
+
+donc temps pour envoyer tout les paquets en R1:
+0.2 puis 0.4 puis 0.6 .. 1
+
+passage en R3:
+2*tp = 1ms
+Donc arrivés en R3:
+1.2 puis 1.4 puis 1.6 .. 2.2??
+
+Puis envoyés en B:
+paquet 1 envoyé en 1er:
+1.2 => 2.2
+
+paquet 2 envoyé au max(paquet 1 arrivé en B, paquet 2 arrivé en R3):
+2.2 => 3.2
+
+ect..
+
+
+passage en B:
+
+TaccesA = L/c = 2*10³/10*10⁶ = 0.2ms
+TaccesB = L/ = 2*103/2*10⁶ = 1ms
+TWAN = L/c = 3*10³/1*10¹0 = 0.2 microsecondes
+
+tp =100*10³/200000*10³ = 0.5ms
+
+
