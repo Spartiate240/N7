@@ -1,0 +1,103 @@
+<mxfile host="Electron" modified="2024-05-28T12:25:46.779Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.8 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="JIIHdNjViS2a8R9sLMJO" version="24.4.8" type="device">
+  <diagram name="Page-1" id="lx1u2AHcaE0cuTb7ovCA">
+    <mxGraphModel dx="2773" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-1" target="sjbhRsTt-yPzfuBSUJUp-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="110" y="170" />
+              <mxPoint x="50" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-1" target="sjbhRsTt-yPzfuBSUJUp-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="230" y="170" />
+              <mxPoint x="290" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-1" value="Epic:&lt;div&gt;evolution de la faune&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-2" value="Evolution d&#39;une/des espèces" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#00FF00;" parent="1" vertex="1">
+          <mxGeometry x="230" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-3" value="Evolution d&#39;une maladie" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF6666;" parent="1" vertex="1">
+          <mxGeometry x="-10" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-8" target="sjbhRsTt-yPzfuBSUJUp-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-360" y="170" />
+              <mxPoint x="-240" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-8" target="sjbhRsTt-yPzfuBSUJUp-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-8" target="sjbhRsTt-yPzfuBSUJUp-22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-480" y="170" />
+              <mxPoint x="-610" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-8" value="Epic:&lt;div&gt;Création de la zone&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-480" y="100" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-9" value="Monde Pré défini" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#00FF00;" parent="1" vertex="1">
+          <mxGeometry x="-480" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-10" value="Génération procédurale" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF6666;" parent="1" vertex="1">
+          <mxGeometry x="-300" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-14" target="sjbhRsTt-yPzfuBSUJUp-15" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-160" y="450" />
+              <mxPoint x="-220" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="sjbhRsTt-yPzfuBSUJUp-14" target="sjbhRsTt-yPzfuBSUJUp-16" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-40" y="450" />
+              <mxPoint x="20" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-14" value="Epic:&lt;div&gt;Evolution de la flore:&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-160" y="380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-15" value="Evenements météorologiques" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FF6666;" parent="1" vertex="1">
+          <mxGeometry x="-280" y="470" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-16" value="Evolution de l&#39;environment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFF33;" parent="1" vertex="1">
+          <mxGeometry x="-40" y="470" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-22" value="Creer un monde/ modifier les paramètres" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFF00;" parent="1" vertex="1">
+          <mxGeometry x="-670" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-33" value="&lt;div&gt;1- Verifier que les espèces existent bien dans l&#39;environnement&amp;nbsp;&lt;/div&gt;2- Verifier que les espèces puissent se reproduire&lt;div&gt;3- Verifier que les individus interagissent entre eux&lt;/div&gt;&lt;div&gt;4- verifier que les individus ne vivent pas plus d&#39;un certain age&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="270" width="190" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-34" value="1- Verifier qu&#39;il y ait des bordures infranchissables&lt;div&gt;-2 Verifier qu&#39;il y ait des ressources qui peuvent être mangées&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-520" y="260" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-35" value="1- Verifier qu&#39;il y ait des ressources qui soient mangées&lt;div&gt;2- Verifier qu&#39;il y ait une régénération d&#39;une durée des ressources&lt;/div&gt;&lt;div&gt;3- Verifier que la génération des ressources soient affectée par l&#39;environnement&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-40" y="540" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sjbhRsTt-yPzfuBSUJUp-37" value="1- Verifier que la météo affecte bien l&#39;environnement&lt;div&gt;2- Verifier qu&#39;il n&#39;y ait pas 2 evenements qui se superposent&lt;/div&gt;&lt;div&gt;3- Verifier qu&#39;il n&#39;y ait pas d&#39;évênements contradictoires (pluie et secheresse/canicule)&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="-530" y="540" width="370" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
