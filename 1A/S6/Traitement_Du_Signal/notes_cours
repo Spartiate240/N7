@@ -1,0 +1,25 @@
+p9:
+Produit de convolution d'une porte(Triangle?) = sinus cardinal
+
+
+p13:
+Classes:  déterministe=> même conditions initiales = même traj
+
+ATTENTION: NE PAS SE FOIRER SUR LA CLASSE D'UN SIGNAL
+
+p14: 
+* = conjugé: (a + ib => a - ib)
+
+p15:
+somme = NRJ et non 1 (d'où densité spectrale d'NRJ)
+x *  x* = |x|²  (module au carré)
+
+p16:
+convolution d'1 carré centré en 0 avec un carré: triangle centré en 0
+
+p19:
+autocorrelation en 0 = Puissance
+
+p22:
+indépendant de t ssi constant
+
