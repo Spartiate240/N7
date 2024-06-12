@@ -1,0 +1,5 @@
+#!/bin/bash
+ip link set dev eth0 up
+ip a a 45.5.77.1/27 dev eth0
+
+ip r add default via 45.5.77.2

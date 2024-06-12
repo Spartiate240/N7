@@ -1,0 +1,55 @@
+#!/bin/bash
+
+#Privé
+ip link set dev eth0 up
+ip a a 192.168.159.225/28 dev eth0
+
+ip link set dev eth1 up
+ip a a 192.168.159.193/28 dev eth1
+
+
+#Publique
+ip link set dev eth2 up
+ip a a 45.5.77.194/28 dev eth2
+
+ip r add default via 45.5.77.193
+
+
+service isc-dhcp-server start
+# Cache les éléments derrière lui
+ sudo iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
+
+
+# Cacher les adresses ip des paquets sortants et afficher celle de la box a la place
+iptables -t nat -A POSTROUTING -o eth1 -j SNAT --to-source 45.5.77.210
+
+#Parametrage de la table afin de refuser par défaut les paquets entrant:
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+
+#Autoriser pings:
+iptables -t filter -A INPUT -p icmp -j ACCEPT
+iptables -t filter -A OUTPUT -p icmp -j ACCEPT
+iptables -t filter -A FORWARD -p icmp -j ACCEPT
+
+#Autoriser protocole RIP
+iptables -A INPUT -p udp --dport 520 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 520 -j ACCEPT
+iptables -A FORWARD -p udp --dport 520 -j ACCEPT
+
+#Autoriser service DNS
+iptables -t filter -A FORWARD -d 45.5.77.1/27 -p udp --dport 53 -j ACCEPT
+iptables -t filter -A FORWARD -s 45.5.77.1/27 -p udp --sport 53 -j ACCEPT
+
+
+#Autoriser service WEB
+iptables -t filter -A FORWARD -p tcp --dport 80 -j ACCEPT
+iptables -t filter -A FORWARD -p tcp --sport 80 -j ACCEPT
+
+
+#Rediriger vers serveur WEB
+iptables -t nat -A PREROUTING -p tcp -d 45.5.77.194 --dport 80 -j DNAT --to-destination 192.168.159.194
+
+
+

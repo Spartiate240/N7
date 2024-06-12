@@ -1,0 +1,5 @@
+#!/bin/bash
+ip link set dev eth0 up
+#ip a a 192.168.159.130/26 dev eth0
+
+dhclient -nw eth0

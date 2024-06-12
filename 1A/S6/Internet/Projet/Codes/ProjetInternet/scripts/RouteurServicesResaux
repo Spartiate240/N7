@@ -1,0 +1,43 @@
+#!/bin/bash
+ip link set dev eth1 up
+ip a a 45.5.77.2/27 dev eth1
+
+ip link set dev eth0 up
+ip a a 45.5.77.129/27 dev eth0
+
+ip link set dev eth2 up
+ip a a 45.5.77.66/27 dev eth2
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+service quagga start
+(echo "zebra"; echo "en"; echo "conf t"; echo "router rip"; echo "network 45.5.77.128/27"; echo "network 45.5.77.0/27" ; echo "network 45.5.77.64/27") | (telnet localhost ripd)
+
+#Parametrage de la table afin de refuser par défaut les paquets entrant:
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+iptables -P FORWARD DROP
+
+#Autoriser pings:
+iptables -t filter -A INPUT -p icmp -j ACCEPT
+iptables -t filter -A OUTPUT -p icmp -j ACCEPT
+iptables -t filter -A FORWARD -p icmp -j ACCEPT
+
+#Autoriser protocole RIP
+iptables -A INPUT -p udp --dport 520 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 520 -j ACCEPT
+iptables -A FORWARD -p udp --dport 520 -j ACCEPT
+
+
+#Autoriser service DNS
+iptables -t filter -A FORWARD -d 45.5.77.1/27 -p udp --dport 53 -j ACCEPT
+iptables -t filter -A FORWARD -s 45.5.77.1/27 -p udp --sport 53 -j ACCEPT
+
+
+#Autoriser service WEB
+iptables -t filter -A FORWARD -p tcp --dport 80 -j ACCEPT
+iptables -t filter -A FORWARD -p tcp --sport 80 -j ACCEPT
+
+
+
+
