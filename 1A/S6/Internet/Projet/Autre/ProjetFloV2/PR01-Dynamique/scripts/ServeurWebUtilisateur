@@ -1,4 +1,0 @@
-#!/bin/bash
-ip link set dev eth0 up
-dhclient eth0
-service apache2 start
