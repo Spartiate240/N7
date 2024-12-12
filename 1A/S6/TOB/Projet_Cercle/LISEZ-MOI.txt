@@ -1,0 +1,42 @@
+Nom       : DUROLLET
+Prénom    : Pierre
+Groupe TP : H
+
+
+Consigne :  Ci-dessous, répondre à la place des « ... ».
+
+
+=====[ Temps ]==================================================================
+
+Temps passé sur la V1 : 7 heures ... minutes
+Temps passé sur la V2 : ... heures ... minutes
+Pour la V2 on ne tiendra pas compte du temps passé sur la V1.
+Bien sûr, les temps renseignés ici ne sont pas pris en compte dans la notation.
+
+
+=====[ Questions ]==============================================================
+
+Indiquer la relation UML entre Cercle et le Point centre du cercle.
+-------------------------------------------------------------------
+
+
+C'est une relation de composition car la classe cercle ne peut exister sans la classe point et que la durée de vie des deux est liée (si le cercle disparait, le centre aussi).
+
+
+
+
+
+Comment est réalisée l'exigence E18 ?
+-------------------------------------
+
+
+Pour réaliser l'exigence E18, il faut que les méthodes qui n'ont pas pour vocation de changer les attributs retournent un attribut de la même classe avec un new.
+
+
+
+=====[ Explications ]===========================================================
+
+(Facultatif) Donner ici les explications supplémentaires utiles à la
+compréhension du travail rendu.
+
+...

@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/home/pierre/Documents/Archives/Java/junit-4.jar",
+        "/home/pierre/Documents/Privé/ProjetJeuRPG/lib/junit-4.jar"
+    ]
+}

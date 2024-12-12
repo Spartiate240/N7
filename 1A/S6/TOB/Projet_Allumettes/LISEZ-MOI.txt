@@ -1,0 +1,64 @@
+Nom       :  DUROLLET
+Prénom    :  Pierre
+Groupe TP :  H
+
+Les « ... » indiquent les endroits à compléter.
+
+=====[ Temps passé ]============================================================
+
+Ces informations de temps sont demandées à titre indicatif et ne sont pas
+prises en compte dans la notation du projet.
+
+
+* Temps passé sur la V1 : 5 heures ... minutes
+* Temps passé sur la V2 : 3 heures 30 minutes
+
+Pour la V2 on ne tiendra pas compte du temps passé sur la V1.
+
+
+=====[ Questions ]==============================================================
+
+--------------------------------------------------------------------------------
+Pourquoi l'exception OperationInterditeException ne peut pas être définie
+comme vérifiée par le compilateur ?
+--------------------------------------------------------------------------------
+
+Elle ne peut pas, car sinon on devrait gerer l'exception dans chaque méthode, ou la propager.
+
+
+--------------------------------------------------------------------------------
+Expliquer ce qu'il faut faire pour ajouter un nouveau niveau de jeu, par
+exemple la stratégie lente (C13).  Pour plus de précision, on numérotera
+les étapes à faire.
+--------------------------------------------------------------------------------
+
+1- En suposant ayant le code de la classe fait et fonctionnel. Il faut tout d'abord ajouter la classe finie au package Allumettes.
+2- Ensuite il faut modifier la classe Jouer à la fin. Il faut ajouter un case qui corresponds à l'entrée lente, et qui créer un joueur avec la stratégie lente.
+Pour cela, on peut prendre les autres cas comme exemple, ce qui donne donc, pour la stratégie lente, dont le nom de lasse est "Lente":
+case "lente":
+    jCour = new Joueur(nom, new Lente());
+
+--------------------------------------------------------------------------------
+Expliquer ce qui permet, dans votre conception, de changer dynamiquement
+(en cours d'exécution du programme) la stratégie d'un joueur (C14).
+--------------------------------------------------------------------------------
+
+
+Dans la classe Joueur, il y a une méthode "setStratégie" qui permets de changer la stratégie du joueur.
+Il ne reste donc plus qu'à indentifier si l'entrée mise dans le scan est une stratégie ou non.
+
+Pour cela on peut ajouter, dans Arbitre, à l'exception qui est levée lorsque l'entrée n'est pas un entier, un case similaire à celui qui est dans Jouer, dans la fonction creerJoueur.
+Chaque case ne renverrai pas de nouveau joueur, mais utiliserait la méthode setStratégie de la classe Joueur, sur le joueur courant. Le default serait alors la ligne d'affichage sur le terminal indiquant que l'entrée n'est pas un entier.
+
+
+=====[ Explications ]===========================================================
+
+--------------------------------------------------------------------------------
+Donner ici les explications supplémentaires utiles à la compréhension du
+travail rendu.
+--------------------------------------------------------------------------------
+
+...
+
+--------------------------------------------------------------------------------
+
