@@ -1,0 +1,6 @@
+project Empty is
+
+   for Languages use ("Ada");
+
+end Empty;
+
