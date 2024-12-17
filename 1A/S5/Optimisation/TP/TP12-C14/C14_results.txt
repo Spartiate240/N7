@@ -1,0 +1,65 @@
+[Warning: Cannot set Position while WindowStyle is 'docked'] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Modelisation_C14', '/Users/gergaud/git-ENS/Optimisation-et-EDP-1A/enseignants/Optimisation/TP/TP-C14/src_etudiants/Modelisation_C14.m', 59)" style="font-weight:bold">Modelisation_C14</a> (<a href="matlab: opentoline('/Users/gergaud/git-ENS/Optimisation-et-EDP-1A/enseignants/Optimisation/TP/TP-C14/src_etudiants/Modelisation_C14.m',59,0)">line 59</a>)] 
+[Warning: Contour not rendered for constant ZData] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('contour', '/Applications/MATLAB_R2022b.app/toolbox/matlab/specgraph/contour.m', 51)" style="font-weight:bold">contour</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2022b.app/toolbox/matlab/specgraph/contour.m',51,0)">line 51</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Modelisation_C14', '/Users/gergaud/git-ENS/Optimisation-et-EDP-1A/enseignants/Optimisation/TP/TP-C14/src_etudiants/Modelisation_C14.m', 89)" style="font-weight:bold">Modelisation_C14</a> (<a href="matlab: opentoline('/Users/gergaud/git-ENS/Optimisation-et-EDP-1A/enseignants/Optimisation/TP/TP-C14/src_etudiants/Modelisation_C14.m',89,0)">line 89</a>)] 
+[Warning: Contour not rendered for constant ZData] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('contour', '/Applications/MATLAB_R2022b.app/toolbox/matlab/specgraph/contour.m', 51)" style="font-weight:bold">contour</a> (<a href="matlab: opentoline('/Applications/MATLAB_R2022b.app/toolbox/matlab/specgraph/contour.m',51,0)">line 51</a>)
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Modelisation_C14', '/Users/gergaud/git-ENS/Optimisation-et-EDP-1A/enseignants/Optimisation/TP/TP-C14/src_etudiants/Modelisation_C14.m', 109)" style="font-weight:bold">Modelisation_C14</a> (<a href="matlab: opentoline('/Users/gergaud/git-ENS/Optimisation-et-EDP-1A/enseignants/Optimisation/TP/TP-C14/src_etudiants/Modelisation_C14.m',109,0)">line 109</a>)] 
+Algorithme de Gauss-Newton
+--------------------------
+residu_C14(beta0, Donnees)
+     0
+
+J_residu_C14(beta0, Donnees)
+     0
+
+--------------------------------------------------------------------------------------------
+     nb_iter         A0        lambda    ||f'(beta)||     f(beta)    ||delta||     exitflag 
+--------------------------------------------------------------------------------------------
+            0           10       0.0001            0            0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+--------------------------------------------------------------------------------------------
+Algorithme de Newton
+--------------------
+Hessienne f(beta^{(0)})
+     0
+
+--------------------------------------------------------------------------------------------
+     nb_iter         A0        lambda    ||f'(beta)||     f(beta)    ||delta||     exitflag 
+--------------------------------------------------------------------------------------------
+            0           10       0.0001            0            0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+     0     0     0     0     0     0     0
+
+--------------------------------------------------------------------------------------------
