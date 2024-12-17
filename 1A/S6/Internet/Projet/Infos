@@ -1,0 +1,6 @@
+Réseau privé: faire un seul réseau avec 1 switch (facilite les transferts)
+
+Routae dynamique: Chaque Routeur partage sa table à intervales réguliers à ceux qu'il touche. ça permets de MAJ si jamais y'a des problèmes (coupures ou autres)
+
+Serveur DNS: dictionnaire géant qui associe à un URL l'addresse IP du serveur
+

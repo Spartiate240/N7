@@ -1,0 +1,119 @@
+% Constantes, les memes qu'avant
+Fe_pb = 6000; % Fréquence échantillonnage pour la chaîne passe-bas (6 kHz)
+Rb = 3000; % Débit binaire
+Tb = 1/Rb; % Période binaire
+Nbits = 10000; 
+Ns = Fe_pb/Rb; % Nombre d'échantillons par symbole
+Te_pb = 1/Fe_pb; % Période d'échantillonnage
+M = 4; % Ordre de modulation 4-ASK
+alpha = 0.35; % Roll-off du filtre
+L = 10; % Durée du filtre en nombre de symboles
+retard = L * Ns_pb / 2; % Retard du filtre
+EbN0dB = 0:6; % Plage de valeurs de Eb/N0 en dB
+
+
+% Génération du signal aléatoire
+signal = randi([0 1],1, Nbits);
+
+% Mapping 4-ASK, on décide de garder l'ordre
+ak = signal(1:2:end);
+bk = signal(2:2:end);
+ak_4ask = ak*2 + bk;
+
+ak_4ask(ak_4ask == 0) = -3;
+ak_4ask(ak_4ask == 1) = -1;
+ak_4ask(ak_4ask == 2) = 1;
+% Les 3 restent à 3.
+
+bits = ak_4ask; % Meme si ce ne sont pas des bits. Et puis il faudra pouvoir comparer
+
+% Ne garde qu'une valeur de chaque valeur du vecteur
+[unique_values, ~] = unique(ak_4ask, 'stable');
+% Affichage Constellation Mapping
+
+figure;
+plot(unique_values,[0 0 0 0], '-o');
+title('Constellation Mapping 4-ASK');
+grid on;
+
+
+% Suréchantillonnage et filtrage pour 4-ASK 
+dirac_4ask = kron(ak_4ask, [1 zeros(1, Ns - 1)]);
+h = rcosdesign(alpha, L, Ns);
+ak_4ask = filter(h, 1, dirac_4ask);
+ak_4ask = ak_4ask(retard + 1 : end); % Supprime le retard
+
+
+% Pas besoin des composantes
+
+
+
+%%%%%% À mettre plus tard
+% % Affichage de la DSP du signal émis
+% [pxx_4ask, f_4ask] = pwelch(ak_4ask, hamming(1024), [], 1024, Fe, 'centered');
+% 
+% figure;
+% plot(f_4ask, 10*log10(pxx_4ask), 'r--', 'LineWidth', 1.5);
+% grid on;
+% title('Comparaison des DSP des signaux QPSK et 4-ASK');
+% xlabel('Fréquence (Hz)');
+% ylabel('Densité Spectrale de Puissance,(dB/Hz)');
+% legend('4-ASK');
+
+
+
+
+% Constantes bruit 
+Px = mean(abs(ak_4ask).^2); % Puissance du signal
+TEB = zeros(1, length(EbN0dB));
+
+for i = 1:length(EbN0dB)
+    EbN0 = 10^(EbN0dB(i)/10); sigma = Px * Ns_pb / (2 * log2(M) * EbN0);
+
+    % Génération du bruit non complexe 
+    bruit = sqrt(sigma) * randn(1,length(ak_4ask)); 
+
+    % Filtrage de réception
+    hr = h;
+    x_r_filtre = filter(hr, 1, [ak_4ask + bruit zeros(1, retard)]);
+    x_r_filtre = x_r_filtre(retard + 1 : end);
+
+    % Signal échantillonné 
+    z_ech = x_r_filtre(1 : Ns_pb : end);
+    z = z_ech;
+    % Décision et démapping
+    z(z > 2) = 3;
+    z((2 >= z) & (z > 0) ) = 2; 
+    z((0 >= z) & (z > -2) ) = 1; 
+    z(z < -2) = 0;
+    
+
+    ak = zeros(1,length(z));
+    bk = zeros(1,length(z));
+
+    ak(z == -3 | z == 1) = 0;
+    ak(z == -1 | z == 3) = 1;
+
+    bk(z == 1 | z == 3) = 1;
+    bk(z == -1 | z == -3) = 0;
+
+
+    % Signal sortie
+    sortie = zeros(1,2*length(z));
+    sortie(1:2:end)=ak;
+    sortie(2:2:end)=bk;
+
+    % Calcul du TEB 
+    TEB(i) = sum(sortie ~= signal(1:length(sortie))) / Nbits;
+end
+
+% Comparaison entre TEB théorique et estimé
+figure; semilogy(EbN0dB, TEB,'*b-');
+hold on;
+semilogy(EbN0dB, qfunc(sqrt(2 * 10.^(EbN0dB / 10))),'sr-');
+grid;
+title('Comparaison entre le TEB théorique et estimé pour le 4-ASK'); 
+legend('TEB estimé', 'TEB théorique'); ylabel('TEB');
+xlabel('Eb/N0 (dB)');
+
+

@@ -1,0 +1,491 @@
+clc;
+clear all;
+close all;
+
+%Constantes
+Fe = 24000; % Fréquence echantillonnage
+fp = 2000; % Fréquence porteuse
+Rb = 3000; % Débit binaire
+Tb = 1/Rb; % Période binaire
+Nbits = 10000; % Nombre de bits à prendre
+Ns = Fe/fp; % Facteur de suréchantillonnage
+Te = 1/Fe; % Période échantillonnage
+V = 1; % Facteur symbole
+M = 4; % Ordre modulation
+alpha = 0.35 ; % Roll off du filtre
+L = round((Nbits-1)/Ns); % Retard du filte
+EbN0dB = 0:6; % Plage de valeurs de Eb/N0 en dB
+N = length(EbN0dB);
+
+%Constantes bruit V1
+
+rapport_sig_bruit = 0.5; % Rapport Signal/bruit souhaité
+retard=L*Ns/2;
+
+
+% Génération signal
+signal = randi([0 1],1, Nbits);
+
+% Mapping 
+ak = 2*signal(1:2:end)-1;
+bk = 2*signal(2:2:end)-1;
+dk = ak + 1i*bk;
+
+
+
+
+
+%La partie reel I et imaginaire Q
+dirac_I = kron(ak, [1 zeros(1, Ns - 1)]);
+dirac_Q = kron(bk, [1 zeros(1, Ns - 1)]);
+
+% réponse impulsionnelle du filtre de mise en forme
+h = rcosdesign(alpha, L, Ns);
+
+%Reel et imaginaire apres filtrage
+reel_o = filter(h, 1, dirac_I);
+imag_o = filter(h, 1, dirac_Q); 
+
+%Suppression de retard
+REEL = reel_o(retard + 1 : end);
+IMAG = imag_o(retard + 1 : end);
+% 
+% Signal transmis
+x =  REEL + 1i * IMAG;
+% figure;
+% subplot(211);
+% plot(REEL);
+% title('Composante en phase');
+% xlabel('temps en s');
+% ylabel('I');
+% subplot(212);
+% plot(IMAG);
+% title('Composante en quadrature');
+% xlabel('temps en s');
+% ylabel('Q');
+
+
+% DSP pour QPSK
+[pxx_qpsk, f_qpsk] = pwelch(x, hamming(1024), [], 1024, Fe, 'centered');
+
+% Affichage des DSP
+figure;
+plot(f_qpsk, 10*log10(pxx_qpsk), 'b-', 'LineWidth', 1.5);
+title('DSP du signal émis pour QPSK');
+xlabel('Fréquence (Hz)');
+ylabel('DSP (dB/Hz)');
+grid on;
+
+
+
+% Constantes bruit
+Px = mean(abs(x).^2); % Puissance du signal
+TEB = zeros(1, 6);
+
+for i = 0:6
+    sigma = Px * Ns  /(2 * log2(M)*10^(i/10));
+
+    % Génération bruit
+    bruit_im = sqrt(sigma)*randn(1,length(x));
+    bruit_re =sqrt(sigma)*randn(1,length(x));
+    bruit = bruit_re + 1i*bruit_im;
+
+    mean(bruit)
+    % Addition
+    hr = h;
+    % dk_bruit = filter(hr, 1, x +bruit);
+
+
+    % Filtrage de réception
+    x_R_filtre= filter(hr, 1, [x+bruit zeros(1,retard)]);
+    x_R_FILTRE = x_R_filtre(retard + 1 : end);
+
+    % Signal échantilloné
+    z = x_R_FILTRE(1 : Ns : end);
+
+    % Seuil + demapping
+    ak = ( sign(real(z)) +1 )/2;
+    bk = ( sign(imag(z)) +1 )/2;
+
+    % Signal sortie
+
+    sortie = zeros(1,2*length(ak));
+    sortie(1:2:end)=ak;
+    sortie(2:2:end)=bk;
+
+
+    TEB(i+1) = sum(sortie ~=signal(1:length(sortie)))/Nbits;
+end
+
+EbN0dB=[0:6];
+% Comparaison entre TEB théorique et estimé
+figure;
+semilogy(EbN0dB, TEB, '*b-');
+hold on
+semilogy(EbN0dB, qfunc(sqrt(2*10.^([0 : 6] / 10))),'sr-');
+grid
+title('Comparaison entre le TEB théorique et estimé pour QPSK');
+legend('TEB estimé','TEB théorique');
+ylabel('TEB');
+xlabel('Eb/N0(dB)');
+
+
+%%%%%%%%%%%%%%%%%%%%%% Partie 3:
+
+
+
+% Constantes
+Fe_pb = 6000; % Fréquence échantillonnage pour la chaîne passe-bas (6 kHz)
+Rb = 3000; % Débit binaire
+Tb = 1/Rb; % Période binaire
+Nbits = 10000; % Nombre de bits à prendre
+Ns_pb = Fe_pb/Rb; % Nombre d'échantillons par symbole
+Te_pb = 1/Fe_pb; % Période d'échantillonnage
+M = 4; % Ordre de modulation, équivalent donc on garde 4
+alpha = 0.35; % Roll-off du filtre
+L = 10; % Durée du filtre en nombre de symboles
+retard = L * Ns_pb / 2; % Retard du filtre
+EbN0dB = 0:6; % Plage de valeurs de Eb/N0 en dB
+
+% Génération du signal aléatoire
+bits = randi([0 1], 1, Nbits);
+
+% Mapping QPSK
+ak = 2 * bits(1:2:end) - 1;
+bk = 2 * bits(2:2:end) - 1;
+dk = ak + 1i * bk;
+
+% Suréchantillonnage
+dirac_I = kron(ak, [1 zeros(1, Ns_pb - 1)]);
+dirac_Q = kron(bk, [1 zeros(1, Ns_pb - 1)]);
+
+% Réponse impulsionnelle du filtre de mise en forme
+h = rcosdesign(alpha, L, Ns_pb);
+
+% Filtrage des impulsions
+reel_o = filter(h, 1, dirac_I);
+imag_o = filter(h, 1, dirac_Q);
+
+% Suppression du retard
+REEL = reel_o(retard + 1 : end);
+IMAG = imag_o(retard + 1 : end);
+
+% Signal transmis
+x = REEL + 1i * IMAG;
+
+% % Affichage des composantes en phase et en quadrature
+% figure;
+% subplot(211);
+% plot(REEL);
+% title('Composante en phase passe-bas équivalent');
+% xlabel('temps en s');
+% ylabel('I');
+% 
+% subplot(212);
+% plot(IMAG);
+% title('Composante en quadrature passe-bas équivalent');
+% xlabel('temps en s');
+% ylabel('Q');
+
+% DSP pour QPSK
+[pxx_qpsk_PB, f_qpsk_PB] = pwelch(x, hamming(1024), [], 1024, Fe, 'centered');
+
+% Affichage des DSP
+% figure;
+% plot(f_qpsk_PB, 10*log10(pxx_qpsk_PB), 'b-', 'LineWidth', 1.5);
+% title('DSP du signal émis pour QPSK');
+% xlabel('Fréquence (Hz)');
+% ylabel('DSP (dB/Hz)');
+% grid on;
+
+% Constantes bruit
+Px = mean(abs(x).^2); % Puissance du signal
+TEB = zeros(1, length(EbN0dB));
+
+for i = 1:length(EbN0dB)
+    EbN0 = 10^(EbN0dB(i)/10);
+    sigma = Px * Ns_pb / (2 * log2(M) * EbN0);
+    
+    % Génération du bruit complexe
+    bruit_re = sqrt(sigma) * randn(1, length(x));
+    bruit_im = sqrt(sigma) * randn(1, length(x));
+    bruit = bruit_re + 1i * bruit_im;
+
+    % Filtrage de réception
+    hr = h;
+    x_r_filtre = filter(hr, 1, [x + bruit zeros(1, retard)]);
+    x_r_filtre = x_r_filtre(retard + 1 : end);
+
+    % Signal échantillonné
+    z = x_r_filtre(1 : Ns_pb : end);
+
+    % Décision et démapping
+    ak_dec = (sign(real(z)) + 1) / 2;
+    bk_dec = (sign(imag(z)) + 1) / 2;
+
+    % Reconstruction des bits
+    bits_recus = zeros(1, 2 * length(ak_dec));
+    bits_recus(1:2:end) = ak_dec;
+    bits_recus(2:2:end) = bk_dec;
+
+    % Calcul du TEB
+    TEB(i) = sum(bits_recus ~= bits(1:length(bits_recus))) / Nbits;
+end
+
+%Comparaison entre TEB théorique et estimé
+figure;
+semilogy(EbN0dB, TEB, '*b-');
+hold on;
+semilogy(EbN0dB, qfunc(sqrt(2 * 10.^(EbN0dB / 10))), 'sr-');
+grid;
+title('Comparaison entre le TEB théorique et estimé pour le filtre passe-bas équivalent');
+legend('TEB estimé', 'TEB théorique');
+ylabel('TEB');
+xlabel('Eb/N0 (dB)');
+
+% Affichage des constellations
+figure;
+scatter(real(dk), imag(dk), 'filled');
+title('Constellation en sortie du mapping');
+xlabel('I');
+ylabel('Q');
+
+figure;
+scatter(real(z), imag(z), 'filled');
+title(['Constellation de sortie pour Eb/N0 = ', num2str(EbN0dB(end)), ' dB']);
+xlabel('I');
+ylabel('Q');
+
+
+
+%%%%%%%%%%%%%%%%%%%%%% Partie 4:
+
+% Constantes, les memes qu'avant
+Fe_pb = 6000; % Fréquence échantillonnage pour la chaîne passe-bas (6 kHz)
+Rb = 3000; % Débit binaire
+Tb = 1/Rb; % Période binaire
+Nbits = 10000; 
+Ns = Fe_pb/Rb; % Nombre d'échantillons par symbole
+Te_pb = 1/Fe_pb; % Période d'échantillonnage
+M = 4; % Ordre de modulation 4-ASK
+alpha = 0.35; % Roll-off du filtre
+L = 10; % Durée du filtre en nombre de symboles
+retard = L * Ns_pb / 2; % Retard du filtre
+EbN0dB = 0:6; % Plage de valeurs de Eb/N0 en dB
+
+
+% Génération du signal aléatoire
+signal = randi([0 1],1, Nbits);
+
+% Mapping 4-ASK, on décide de garder l'ordre
+ak = signal(1:2:end);
+bk = signal(2:2:end);
+ak_4ask = ak*2 + bk;
+
+ak_4ask(ak_4ask == 0) = -3;
+ak_4ask(ak_4ask == 1) = -1;
+ak_4ask(ak_4ask == 2) = 1;
+% Les 3 restent à 3.
+
+bits = ak_4ask; % Meme si ce ne sont pas des bits. Et puis il faudra pouvoir comparer
+
+% Constellation
+[val_uniques, ~] = unique(ak_4ask, 'stable');
+
+figure;
+plot(val_uniques,[0 0 0 0], '-o');
+title('Constellation Mapping 4-ASK');
+grid on;
+
+
+% Suréchantillonnage et filtrage pour 4-ASK 
+dirac_4ask = kron(ak_4ask, [1 zeros(1, Ns - 1)]);
+h = rcosdesign(alpha, L, Ns);
+ak_4ask = filter(h, 1, dirac_4ask);
+ak_4ask = ak_4ask(retard + 1 : end); % Supprime le retard
+
+
+% Pas besoin des composantes
+
+
+% Constantes bruit 
+Px = mean(abs(ak_4ask).^2); % Puissance du signal
+TEB_4 = zeros(1, length(EbN0dB));
+
+for i = 1:length(EbN0dB)
+    EbN0 = 10^(EbN0dB(i)/10);
+    sigma = Px * Ns_pb / (2 * log2(M) * EbN0);
+
+    % Génération du bruit non complexe 
+    bruit = sqrt(sigma) * randn(1,length(ak_4ask)); 
+
+    % Filtrage de réception
+    hr = h;
+    x_r_filtre = filter(hr, 1, [ak_4ask + bruit zeros(1, retard)]);
+    x_r_filtre = x_r_filtre(retard + 1 : end);
+
+    % Signal échantillonné 
+    z_ech = x_r_filtre(1 : Ns_pb : end);
+    z = z_ech;
+
+
+    % Ne garde qu'une valeur de chaque valeur du vecteur
+    [val_uniques, ~] = unique(z, 'stable');
+    % Affichage Constellation Mapping
+    figure;
+    plot(val_uniques,zeros(1, length(val_uniques)), '-o');
+    title('Constellation Mapping 4-ASK EbN0dB = ', EbN0dB);
+    hold on;
+
+
+    % Décision et démapping
+    z(z > 2) = 3;
+    z((2 >= z) & (z > 0) ) = 2; 
+    z((0 >= z) & (z > -2) ) = 1; 
+    z(z < -2) = 0;
+    
+
+    ak = zeros(1,length(z));
+    bk = zeros(1,length(z));
+
+    ak(z == -3 | z == 1) = 0;
+    ak(z == -1 | z == 3) = 1;
+
+    bk(z == 1 | z == 3) = 1;
+    bk(z == -1 | z == -3) = 0;
+
+
+
+    % Signal sortie
+    sortie = zeros(1,2*length(z));
+    sortie(1:2:end)=ak;
+    sortie(2:2:end)=bk;
+
+    
+    % Calcul du TEB 
+    TEB_4(i) = sum(sortie ~= signal(1:length(sortie))) / Nbits;
+end
+
+% Comparaison entre TEB théorique et estimé
+figure; semilogy(EbN0dB, TEB_4,'*b-');
+hold on;
+semilogy(EbN0dB, qfunc(sqrt(2 * 10.^(EbN0dB / 10))),'sr-');
+grid;
+title('Comparaison entre le TEB théorique et estimé pour le 4-ASK'); 
+legend('TEB estimé', 'TEB théorique'); ylabel('TEB');
+xlabel('Eb/N0 (dB)');
+
+
+%%% 4.2
+% Affichage de la DSP du signal émis
+[pxx_4ask, f_4ask] = pwelch(ak_4ask, hamming(1024), [], 1024, Fe, 'centered');
+figure;
+plot(f_4ask, 10*log10(pxx_4ask), 'r-', 'LineWidth', 1.5);
+grid on;
+xlabel('Fréquence (Hz)');
+ylabel('DSP (dB/Hz)');
+title('DSP du modulateur 4-ASK');
+legend('4-ASK');
+figure;
+plot(f_4ask, 10*log10(pxx_4ask), 'r-', 'LineWidth', 1.5);
+grid on;
+xlabel('Fréquence (Hz)');
+ylabel('DSP (dB/Hz)');
+hold on;
+plot(f_qpsk, 10*log10(pxx_qpsk), 'b-', 'LineWidth', 1.5);
+title('Comparaison des DSP des signaux QPSK et 4-ASK');
+legend('4-ASK','Q-PSK');
+grid on;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Partie 5
+% Paramètres
+Fe = 6000; % Fréquence d'échantillonnage
+Rb = 3000; % Débit binaire (bps)
+Ns = 1; % Nombre de symboles par échantillon (pour 8-PSK)
+EbN0dB = 0:6; % Plage de valeurs de Eb/N0 en dB
+alpha = 0.20;
+L = 10;
+Nbits = 10000;
+M = 8; % Nombre de symboles pour 8-PSK
+Ns_pb = Fe / Rb;
+
+
+% Génération signal
+bits = randi([0 7], 1, Nbits);
+
+% Mapping 8-PSK
+symboles = pskmod(bits, M);
+
+
+% Constellation 8-PSK
+[val_uniques_8psk, ~] = unique(symboles, 'stable');
+figure;
+plot(real(val_uniques_8psk), imag(val_uniques_8psk), 'bo');
+title('Constellation Mapping 8-PSK');
+xlabel('Partie Réelle');
+ylabel('Partie Imaginaire');
+grid on;
+
+% Suréchantillonnage
+signal_temporel = upsample(symboles, Ns_pb);
+
+% Filtre de mise en forme (racine de cosinus surélevé)
+h = rcosdesign(alpha, L, Ns_pb);
+signal_filtre = filter(h, 1, signal_temporel);
+ak_8psk = signal_filtre(retard + 1 : end); % Supprime le retard
+
+
+
+% Ajout du bruit
+Px = mean(abs(ak_8psk).^2);
+TEB_5 = zeros(1, length(EbN0dB));
+
+
+for i = 1:length(EbN0dB)
+    EbN0 = 10^(EbN0dB(i)/10);
+    sigma = Px / (2 * log2(M) * EbN0);
+    bruit = sqrt(sigma) * (randn(size(ak_8psk)) + 1i * randn(size(ak_8psk)));
+    signal_bruite = ak_8psk + bruit;
+    
+    % Filtrage de réception
+    signal_recu_filtre = filter(h, 1, signal_bruite);
+    
+    % Signal échantillonné
+    signal_recu_ech = signal_recu_filtre(1:Ns_pb:end);
+    
+
+    %Constellation de sortie
+    figure;
+    [val_uniques_8psk, ~] = unique(signal_recu_ech, 'stable');
+    plot(real(val_uniques_8psk), imag(val_uniques_8psk), 'bo');
+    title('Constellation Mapping 8-PSK, EbN0dB', EbN0 );
+    grid on;
+    % Démapping
+    bits_recus = pskdemod(signal_recu_ech, M);
+    
+    % TEB
+    TEB_5(i) = sum(bits_recus ~= bits(1:length(bits_recus))) / Nbits;
+end
+
+% Tracé du TEB en fonction de Eb/N0
+figure;
+semilogy(EbN0dB, TEB_5, '*b-');
+xlabel('Eb/N0 (dB)');
+ylabel('TEB');
+title('TEB en fonction de Eb/N0 pour 8-PSK');
+
+
+%%% 5.2
+
+% Calcul de la DSP du signal émis
+[pxx_8psk, f_8psk] = pwelch(signal_temporel, hamming(1024), [], 1024, Fe, 'centered');
+
+% Affichage de la DSP du signal émis
+figure;
+plot(f_8psk, 10*log10(pxx_8psk), 'r-', 'LineWidth', 1.5);
+grid on;
+title('DSP du signal émis pour 8-PSK');
+xlabel('Fréquence (Hz)');
+ylabel('Densité Spectrale de Puissance (dB/Hz)');
+
+
