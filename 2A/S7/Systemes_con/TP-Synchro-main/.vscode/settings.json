@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "memoire.h": "c",
+        "atomique.h": "c"
+    }
+}

@@ -1,0 +1,45 @@
+Cours 1:
+On retransmets pas un paquet IP, on peut cependant transmettre un paquet avec les mêmes données.
+
+ROUTAGE:
+Doit être fiable, rapide, ne pas se tromper de chemin
+
+Le routage doit s'adapter à la dynamique du réseau:
+
+	Reconfigurations, pannes, charge, mobilité (connexion/déconnexion au réseau?)
+
+Mais faut que ça reste réaliste au niveau du traitement algo et des charges de donées.
+
+
+dans la Pile IP:
+routage en mode datagramme(!connecté)
+Notion de Tables de routages (parfois appelé à tort "table de commutation")
+	Commutation: router paquet par paquet
+	X.25 par ex ne fait QUE router les paquets, datagramme route ET commute
+
+Table de commutation:
+	chaque routeur C3 a dans chaque ligne de sa table: un routeur d'entrée, un numéro d'entée, et le routeur vers lequel il doit envoyer.
+Sur des grands réseaux, c'est infaisable.
+
+	Solution: tables de routage
+
+On peut aller voir une vidéo expliquant les différences
+
+IP fait du Routage fait de Proche en proche
+	ce sont les tables de routage qui font la cohérence de IP 
+
+Différents protocoles de routages:
+	Système autonome en termes de routage
+	Parce que =/= echelles de tailles
+	routages internes et externes (de natures différentes)
+
+
+
+Slide 104:
+Keepalive: permets de confirmer que le réseau fonctionne bien.
+	ex: ssh, si on fait rien et que y'a aucun msg envoyé, on sait pas s'il y a une coupure du réseau
+
+
+
+
+

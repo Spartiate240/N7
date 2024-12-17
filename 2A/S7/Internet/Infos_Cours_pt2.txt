@@ -1,0 +1,30 @@
+slide 35: hauteur d'1 marche = 1 segment, donc peut être long et jamais atteindre le max
+
+slide 40: choix des 10 segments fait par google car 10 segments suffisent pour les 1ers affichages de page
+
+slide 41: "TCP friendly" = ne pas (être + agressif) aller chercher du débit + vite que TCP
+	Si on en propose 1 moins agressif, il sera - efficace, donc pas voulu.
+=> faut être TCP friendly et pouvoir aller chercher + de débit.
+Il DOIT avoir des pertes pour pouvoir id des congestions (contre intuitif car on devrait vouloir EVITER les pertes).
+
+slide 44: cubic: Windows
+	compound: linux
+
+slide 46: graph droite, courbe rouge: forme cubic, d'où le nom
+
+slide 57:
+	Si vide: pas de transit, donc on perds de l'optimalité
+	Si trop remplie: approche du point critique où c'est rempli, et peu de temps pour y réagire.
+
+
+slide 58:
+	haut: tps aller-retour (RTT = Round-Trip time)
+	bas:  débit
+Débit limité par: taille de la fenetre et par le débit le + faible des liens (si 1 à 1Mb/s et 1 à 100 Mb/s => max: 1Mb/s)
+
+si petites fenetres, tps constant car les files d'attentes sont /ss exploitées, donc tt le tps vides (ou presque).
+À l'inverse, si elles sont trop grandes, il y a remplissement des files, donc augmentation du tps.
+
+
+pt de fonctionnement idéal: combine RTT le + faible ET Delivery rate (Débit) le + haut
+VOIR SLIDE 60

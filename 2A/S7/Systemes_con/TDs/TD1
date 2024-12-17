@@ -1,0 +1,152 @@
+/* QUESTION 1 */
+
+
+client() {
+    /* va chez le barbier et attends son tour*/
+    assoies_sur_siège;
+    /* se fait raser*/
+    lève_et_part;
+    /* libère le siège*/
+}
+
+
+
+barbier() {
+    while(true) {
+        /* attends un client*/
+        debuter_rasage;
+        /* raser */
+        finir_rasage;
+    }
+}
+
+/*
+prédicat d'accpetation:
+
+s'asseoir : le siège est libre
+se lève : le rasage est fini
+débiter rasage : client est assis sur le siège et rasage n'a pas commencé ET rasage non terminé (normalement client déjà rasé)
+finir rasage : rien 
+*/
+
+
+/* Variables d'état:
+
+siège_libre : boolean := true 
+client_rasé: : boolean : false
+*/
+
+
+/* invariant et conditions d'aceptations:
+s'assoir: siège_libre
+se lève: client rasé
+débuter rasage; !siège libre ET !client rasé
+finir_rasage RIEN
+
+INVARIANT: client_barbu => !siège Libre
+*/
+
+/* Variables conditions:
+
+siège
+clientbarbu
+
+
+si (!conditions) : alos attendre
+{conditions}
+MAJ variables
+signaler les variables conditions modifiérs dont e précédent est VRAI
+*/
+
+
+s_assoir() {
+    if (!siege_libre) {
+        Siege.attendre();
+    } elif (siege_libre) {
+        siege_libre = false;
+        client_rasé = false;
+    }
+}
+
+debut_rasage() {
+    if (!siege_libre && !client_rasé) {
+        clent_barbu.attendre();
+    /* !siege_libre && !client_rasé*/
+    } 
+}
+
+se_lever() {
+    if (!client_rasé) {
+        raser.attendre();
+    } else {
+        siege_libre = vrai;
+        siege.signaler();
+    }
+}
+
+finir_rasage() {
+    client_rasé = true;
+    rasé.signaler();
+}
+
+
+
+/* QUETION 2 */
+
+/* client :
+
+
+
+client() {
+
+    entrer_salle();
+
+    /* va chez le barbier et attends son tour*
+    assoies_sur_siège;
+    /* se fait raser*
+    lève_et_part;
+    /* libère le siège*
+}
+
+
+
+
+
+
+prédicats d'accpetation:
++ entrer_salle: il y a de la place dans la salle d'attente
+
+
+Variables conditions:
++ nb_places_libres : int := N
+
+
+Conditions d'acceptation:
++ entrer_salle : nb_places_libre > 0
+
+
+Variables conditions:
+
++ salle_pleine
+*/
+
+
+entrer_salle() {
+    if !(nb_places_libres > 0) {
+        Salle_pleine.attendre();
+    } else {
+        nb_places_libres += -1;
+    }
+}
+
+s_assoir() {
+    if !(siege_libre) {
+        Siege.attendre();
+    } else {
+        client_rasé = false;
+        siege_libre = false;
+        nb_places_libres +=1;
+        client_barbu.raser();
+        sallepleine.signaler();
+    }
+}

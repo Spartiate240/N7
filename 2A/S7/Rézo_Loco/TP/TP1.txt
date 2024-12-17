@@ -1,0 +1,45 @@
+1)
+MTU: max transition unit: taille tram max = 1500octets
+00:0a:f7:cb:d8:d8
+00:0a:f7:cb:d8:d9
+00:0a:f7:cb:d8:da
+a0:36:9f:2a:75:72
+00:0a:f7:cb:d8:d9
+
+4)
+PROTOCOL: ICMP
+
+5) ARP sert à récuperer une @MAC à partir d'une @IP
+
+On voit la réponse à notre requete, et on voit les requetes des autres mais pas les réponses.
+
+On peut récupérer des infos, ou falsifier les réponses en répondant avant ce queles vrais destinataires répondent.
+
+Si il y a + d'1 réponse, on sait qu'il y a un soucis.
+
+6)
+contenu sans trafic:
+uniquement les 2 @mac des interfaces du bridge
+
+Avec Ping:
++ de lignes avec les @Mac des PC; local passe en "no", et il y a le ageing timer qui est non nul
+il n'y a pas de diff en fonction du PC qui ping.
+
+7) pont permets de lier 2 rézo loco de protocols différents, contrairement au switch. (ex: token ring, wifi, ethernet, fibre ect...)
+
+8)
+Le STP permets d'eviter les boucles infinies sur les topologies physiques, cela permets d'éviter que les trames envoyées en broadcast tournent à l'infini
+
+On en a pas besoin car il n'y a pas de risques de boucles.
+
+Les Trames BPDU sont les trames Bridge Protocol Data Unit, qui mettent en place les bridge.
+
+Elles sont envoyées aux voisins, qui eux envoient à leurs voisins.
+C'est donc multicast si tu as pls voisins.
+
+La machine racine est le début des trames BDPU, c'est le root.
+
+
+
+
+La machine racine est celle avec l'@IP la + petite.

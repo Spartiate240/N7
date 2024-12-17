@@ -1,0 +1,25 @@
+commandes dans la console de lancement, avec les lignes:
+startManuX
+
+h : help
+c : clear screen
+p : processus
+m : memoire
+i : interruptions
+s : synchronisation
+
+
+changements:
+Tailler buffer: augmente ce qui es lu d'un coup (Taile-1)
+
+nb lecteur/ecrivains : augmente nb consoles lecteurs/ecrivains (nb-1)
+
+
+
+Vérrou (exclusion mutuelle) à mettre 1 vérrou/tube, donc pas une variable globale, sinon c'est 1 vérrou pour tous.
+Du coup il faut le mettre dans la déf des tubes (fichier sf/tubes.c, dans le typedef)
+
+
+changer/adapter les fonctions de tubes.c pour inclure le verrou, ainsi que les changements causés par l'ordonnanceur
+
+bcp plus lent avec ordonnanceur, NAZE???
