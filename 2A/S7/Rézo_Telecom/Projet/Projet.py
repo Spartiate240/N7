@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 # Composants du réseau: liés par des liens: chaque composant d'un ligne est lié à tout ceux de la ligne suivante
 # Et PTS1 lié à PTS2
@@ -27,6 +28,21 @@ liens_ex = [[0, 0, 0, 0, 0, 1, 1],
             [1, 1, 1, 1, 1, 0, 1],
             [1, 1, 1, 1, 1, 1, 0]]
 
+# Matrice des capacités (en appels simultanés)
+capacites = [[0, 0, 0, 0, 0, 10, 10],
+             [0, 0, 0, 0, 0, 10, 10],
+             [0, 0, 0, 0, 0, 10, 10],
+             [0, 0, 0, 0, 0, 10, 10],
+             [0, 0, 0, 0, 0, 10, 10],
+             [10, 10, 10, 10, 10, 0, 100],
+             [10, 10, 10, 10, 10, 100, 0]]
+
+# Liste des utilisateurs, servira pour virer les chemins incluant des utilisateurs non concernés
+# par l'appel
+utilisateurs = [0, 1, 2]
+
+
+
 # Fonction qui retourne la liste des noeuds adjacents pour chaque noeud
 # Entrée: liens_ex: matrice des liens entre les composants
 # Sortie: liste_adj: liste des noeuds adjacents pour chaque noeud
@@ -47,15 +63,71 @@ def liste_adj(liens_ex):
 #print(liste_adj(liens_ex))
 
 
+
+
 # Algorithme de recherche de tous les chemins possibles entre deux noeuds
 # Entrée: liste_adj: liste des noeuds adjacents pour chaque noeud
 #         appellant: composant appelant/ origine
 #         appele: composant appelé/ arrivée
 # Sortie: chemins_p: liste des chem
-def tout_chemins(liste_adj, appellant, appele):
-    chemins_p = []
+def trouver_chemins(graph, source, destination, chemin_actuel=[]):
+    chemin_actuel = chemin_actuel + [source]  # Ajouter le nœud actuel au chemin
+    if source == destination:  # Si on atteint le nœud de destination, retourner le chemin
+        return [chemin_actuel]
+    
+    chemins = []  # Liste pour stocker les chemins
+    for voisin in graph[source]:
+        if voisin not in chemin_actuel:  # Éviter les boucles
+            chemins += trouver_chemins(graph, voisin, destination, chemin_actuel)
+    
+    return chemins
+trouver_chemins
 
-    return chemins_p
+
+
+# On garde que les chemins possibles:
+# On vire donc ceux de taille paire (qui donc forcément passent par 2 PTS d'affilée)
+# Ceux qui passent par un le PS (1, 2 ou 3) qui n'est ni source, ni destinaion
+# Donc ceux qui contiennent l'indice dans [0 1 2] différent de source/dest
+def chemins_possible(listes):
+    chemins_possibles = []
+    concerne = [] # Utilisateurs concernés
+    concerne.append(listes[0][0]) # Appelant
+    concerne.append(listes[0][-1]) # appelé
+    virer = []
+
+    # Liste des indices excluant, dans notre cas: 1 seul
+    for i in utilisateurs:
+        if i not in concerne:
+            virer.append(i)
+    print(listes)
+
+    # Parcourir toutes les listes et ne prendre celles qui correspondent.
+    for i in listes:
+        for j in virer:
+            # Si contient le 3e utilisateur, on vire
+            if j in i:
+                listes.remove(i)
+                print(i)
+        
+        # Si chemin de longeur paire
+        if len(i) % 2 == 0 and i in listes:
+            listes.remove(i)
+    
+    return listes
+
+
+# Test de la fonction partage_charge
+liste_adj = liste_adj(liens_ex)
+
+tous_chemins = trouver_chemins(liste_adj, 1, 4)
+chemins_possibles = chemins_possible(tous_chemins)
+print(chemins_possibles)
+
+#OK
+
+
+
 
 # Algorithme du routage en partage de charge
 # Entrée: liens_ex: matrice des liens entre les composants
@@ -69,17 +141,6 @@ def partage_charge(liste_adj, appellant,appele) :
 
     ## Déterminer les chemins possibles
     chemins_p = [] # liste des chemins possibles
-    chemins_p = tout_chemins(liste_adj, appellant, appele)
+    chemins_p = trouver_chemins(liste_adj, appellant, appele)
     print(chemins_p)
-
-
-    
-
-    
-
     return chemins_s
-
-
-# Test de la fonction partage_charge
-liste_adj = liste_adj(liens_ex)
-partage_charge(liens_ex, 0, 6)
