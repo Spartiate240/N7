@@ -1,0 +1,19 @@
+Student serveur créé à tester
+
+recreer "student server" en local
+
+classe anotée par @pass (nom machine + port)
+
+méthode anotée avec @getMapping + nom methode du POV URL
+
+
+
+Utilise RestEasy pr l'appeler
+Créer un projet, on a la Doc
+creer classe Java qui converti Json en données brutes?
+getStudent + Prenom et Nom => donne des infos dont l'INE
+getReccord + INE => donne les notes de l'élève
+
+Creer service qui fait ET getStudent ET getReccord en même temps (reprends l'INE et lance l'URL suivant?)
+
+Cela facilitera la gestion de Bases de Données => évite d'avoir à écrire les requetes SQL

@@ -1,10 +1,16 @@
 import numpy as np
 import random
 
+#
+# quelle matrice?
+#
+#
+
+
+
 # Composants du réseau: liés par des liens: chaque composant d'un ligne est lié à tout ceux de la ligne suivante
 # Et PTS1 lié à PTS2
 #      PS4    PS5
-
 # PTSI1          PTS2
 
 #PS1      PS2      PS3
@@ -86,7 +92,7 @@ trouver_chemins
 
 
 # On garde que les chemins possibles:
-# On vire donc ceux de taille paire (qui donc forcément passent par 2 PTS d'affilée)
+# On vire donc ceux de taille paire (qui donc forcément passent par 2 PTS d'affilée) ############################ Sur???
 # Ceux qui passent par un le PS (1, 2 ou 3) qui n'est ni source, ni destinaion
 # Donc ceux qui contiennent l'indice dans [0 1 2] différent de source/dest
 def chemins_possible(listes):
@@ -119,13 +125,11 @@ def chemins_possible(listes):
 
 # Test de la fonction partage_charge
 liste_adj = liste_adj(liens_ex)
-
 tous_chemins = trouver_chemins(liste_adj, 1, 4)
 chemins_possibles = chemins_possible(tous_chemins)
 print(chemins_possibles)
 
 #OK
-
 
 
 
@@ -144,3 +148,32 @@ def partage_charge(liste_adj, appellant,appele) :
     chemins_p = trouver_chemins(liste_adj, appellant, appele)
     print(chemins_p)
     return chemins_s
+
+
+
+
+# Fonction qui génère des appels aléatoires
+# Entrée: nb_appels: nombre d'appels à générer
+#         n: nombre de composants dans le réseau
+# Sortie: appels: liste des appels générés
+def gene_appel(nb_appels, n):
+    appels = []
+
+    for _ in range(nb_appels):
+        source = random.randint(0, n - 1)
+        destination = random.randint(0, n - 1)
+        # Evite qu'on ait un appel ayant même source et destination
+        while destination == source:
+            destination = random.randint(0, n - 1)
+
+        duree = random.uniform(1, 5)
+        appel = [source, destination, duree]
+        appels.append(appel)
+    return appels
+
+
+# Test de la fonction gene_appel
+test_appels = gene_appel(10, 7)
+print("Test Appels:")
+print(test_appels)
+# OK
