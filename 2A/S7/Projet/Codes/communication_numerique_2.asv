@@ -1,0 +1,89 @@
+%% VARIABLES INITIALES
+
+Nb_bits = 2000;
+Fe = 1000; % Fréquence d'échantillonage
+Te = 1/Fe;
+Ns = 5; % Facteur de suréchantillonage
+% Paramètres du filtre de mise en forme
+alpha = 0.35; % coeficient de roll-off
+span = 10; % Durée du filtre en symboles 2*Ns
+    % ie: les filtres générés par la fonc rcosdesign ont 1 durée de SPAN
+    % périodes sy
+
+
+h = rcosdesign(alpha, span, Ns , 'sqrt');
+retard = length(h);
+hr = fliplr(h);    %flip le filtre ..-| -> |-.. atttention il faut le 
+% rendre causal ici fait directement : ..|-
+
+% Variable bruit
+% Eb/N0 de -4 à 4 dB
+EbN0dB = -4:4;
+EbN0 = 10.^(EbN0dB/10);
+% Nombre de valeurs de Eb/N0
+n = length(EbN0dB);
+% Puissance bruit
+Nb=-1000;
+precision = 0.5;
+TEB = zeros(1,n);
+courant = 1;
+%% PARTIE 2
+while courant<n
+    if (abs(TEB(courant)-qfunc(sqrt(2*EbN0(courant))))<precision*qfunc(sqrt(2*EbN0(courant))))
+        courant = courant+1;
+    end
+    
+    % Génération de bits, on la garde pour la suite, évitant les redondances
+    bits = randi([0 1],1,Nb_bits);
+    % Mapping QPSK défini par DVB-S, il y a donc Nb_bits/2 symboles
+    sym = (1-2*bits(2:2:end)) + 1i*(1-2*bits(1:2:end));
+
+    % Suréchantillonage (symbole + Ns 0 ...)
+    pdirac = [kron(sym,[1, zeros(1,Ns-1)]), zeros(1,retard)];
+
+    % Passage dans le filtre de mise en forme surélevé et convolution span à
+    % justifier
+
+    x = filter(h,1,pdirac);
+    Px = mean(abs(x).^2);
+    % Boucle pour les différentes valeurs de Eb/N0
+   
+    sigma2 = Px*Ns/(2*log2(4)*10.^(EbN0dB(courant)/10));
+    % Bruit
+    bruit = sqrt(sigma2)*(randn(1,length(x)) + 1i*randn(1,length(x)));
+    y_bruit = x + bruit;
+        
+    % filtre reception
+    y_retarde = filter(hr,1,y_bruit);
+
+
+    % Supression du retard
+    % ordre_du_filtre = span*Ns = retard a enlever;
+    y_surechantillone = y_retarde(retard:end);
+
+    % Echantillonnage tout les Nes
+    y = y_surechantillone(1:Ns:end-1);
+
+    % Démodulation
+    re = real(y)<0;
+    im = imag(y)<0;
+
+
+    % Signal réception
+    sig_re = zeros(1,2*length(re));
+    sig_re(1:2:end) = im;
+    sig_re(2:2:end) = re;
+    % Calcul TEB
+
+    TEB(courant)= sum(sig_re ~= bits)/Nb_bits;
+end
+
+%Tracé du TEB
+figure(1);
+semilogy(EbN0dB,TEB,'r');
+hold on;
+semilogy(EbN0dB,qfunc(sqrt(2*EbN0)),'b');
+grid;
+xlabel('Eb/N0 (dB)');
+ylabel('TEB');
+title('TEB en fonction de Eb/N0');

@@ -1,0 +1,43 @@
+clear all;
+close all;
+run('modulateur_demodulateur.m');
+TEB_t = TEB;
+run('Codage_viterbi_hard.m');
+TEB_h_t = TEB_h;
+run('Codage_viterbi_hard_poinconnage.m');
+TEB_h_t_p = TEB_h_p;
+run('Codage_viterbi_soft.m');
+TEB_s_t = TEB_s;
+run('Codage_viterbi_soft_poinconnage.m');
+TEB_s_t_p = TEB_s_p;
+run('Viterbi_solomon.m');
+TEB_RS_p = TEB_RS;
+run('Viterbi_solomon.m');
+TEB_RS_p = TEB_RS;
+
+
+% Création du graphique
+figure;
+% Tracé des courbes avec des couleurs choisies et lignes continues
+semilogy(EbN0dB, TEB_s_t, 'LineWidth', 2, 'Color', [0, 0.4470, 0.7410]); % Bleu
+hold on;
+semilogy(EbN0dB, TEB_h_t, 'LineWidth', 2, 'Color', [0.8500, 0.3250, 0.0980]); % Rouge
+%hold on;
+semilogy(EbN0dB, TEB_t, 'LineWidth', 2, 'Color', [0.4660, 0.6740, 0.1880]); % Vert
+%hold on;
+
+% Tracé des courbes poinçonnées avec un style différent (tiret long ':' et marqueurs)
+semilogy(EbN0dB, TEB_s_p, 'LineWidth', 2, 'Color', [0.9290, 0.6940, 0.1250], 'LineStyle', ':'); % Jaune, tirets longs
+%hold on;
+semilogy(EbN0dB, TEB_h_p, 'LineWidth', 2, 'Color', [0.4940, 0.1840, 0.5560], 'LineStyle', ':'); % Violet, tirets longs
+semilogy(EbN0dB, TEB_RS_p, 'LineWidth', 2, 'Color', [0.90, 0.1840, 0.3]); 
+% Ajouter la légende avec les bonnes couleurs et styles
+legend('TEB avec décodage soft', 'TEB avec décodage hard', 'TEB sans codage', ...
+    'TEB avec décodage soft poinçonné', 'TEB avec décodage hard poinçonné','TEB avec Viterbi hard et Reed-solomon');
+
+% Amélioration du graphique 
+grid on;
+xlabel('Eb/N0 (dB)');
+ylabel('TEB');
+title('Courbes de TEB en fonction de Eb/N0');
+
