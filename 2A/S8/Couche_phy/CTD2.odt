@@ -1,0 +1,30 @@
+Réutilisation de fréquences:
+	2 stations de base qui sont éloignées peuvent utiliser les mêmes fréquences sans risque d'interférences
+
+Multiplexage vs Accès Multiple:
+	à voir
+
+World Café:
+	FDD: Division Fréquentielle
+	Avantages:
+		1) meilleure couverture=> + de fréquences utilisées, meilleure preformance en longue distance (la diago du vide)
+		2) Peu de latence car 100% du temps est pour toi et tu peux reçevoir et emettre en même temps
+		3) compatible avec systèmes déjà existants
+	Désavantages:
+		1) requiert + d'usage de bande de fréquences
+		2) coute cher
+		3) peu flexible à la demande variante (grande/faible UL/DL)
+	
+	TDD: 	''    Temporelle
+	Avantages:
+		1) meilleure efficacité spectrale
+		2) coute - cher
+		3) assez flexible à une variation de demande UL/DL
+	Désavantages:
+		1) pb d'interfaces avec stations qui ont une config trop différente
+		2) couverture limitée de par le fait qu'on sépare temporellement
+		3) latence + élevée
+
+
+Conclusion: ÇA DÉPENDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
