@@ -1,5 +1,0 @@
-2.1
-    symboles : +/- 0.7071 +/- i 0.7071
-    Le bruit va venir les modifier via interférences (ondes destructrices/constructrices)
-
-La forme des courbes TEB de ZFE, MMSE donnent les bornes inf et sup.
