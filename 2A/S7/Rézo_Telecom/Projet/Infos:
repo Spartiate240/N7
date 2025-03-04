@@ -1,4 +1,0 @@
-Recherche chemin: cours théorie des graphs: slides 42 à 55:
-	recherche chemin
-	Dijkstra (boucler et vérifier que 2 chemins passent pas par les mêmes sommets=> on vire les liens une fois un chemin trouvé?)
-	Matrice des + courts chemins
