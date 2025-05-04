@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        ".als.json": "jsonc",
+        "readcmd.h": "c",
+        "stdbool.h": "c"
+    }
+}
