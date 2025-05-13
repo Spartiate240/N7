@@ -3,9 +3,6 @@
    Description : Projet minishell de 1A (TPs 1 à 5)
 */
 
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "readcmd.h"
@@ -17,17 +14,14 @@
 #include <unistd.h>
 #include <signal.h>
 
-
 // Avancement:
 // TP 1 OK Question 1: OK
 // Question 2; OK
 // TP 2: OK
-//TP 3: Etape 11.2 OK, Faire 11.3
-
-
+// TP 3: Etape 12 NON OK
+// TP 4: A FAIRE
 
 int fils_termine= 0; 
-
 
 // Etape 6
 void traitement_fils(int sig) {
@@ -105,18 +99,33 @@ int main(void) {
     sigaction(SIGTSTP, &sa_cz, NULL);
     */
 
-    // Etape 11.2 partie 2
-   signal(SIGINT, SIG_IGN);
-   signal(SIGTSTP, SIG_IGN);
+    // Appel pour etape 11.2 partie 2
+   //signal(SIGINT, SIG_IGN);
+   //signal(SIGTSTP, SIG_IGN);
+
+    // Etape 11.3 : Masquage de SIGINT et SIGTSTP
+    sigset_t masque;
+    sigemptyset(&masque);
+    sigaddset(&masque, SIGINT);
+    sigaddset(&masque, SIGTSTP);
+
+    if (sigprocmask(SIG_BLOCK, &masque, NULL) < 0) {
+        perror("sigprocmask");
+        exit(EXIT_FAILURE);
+    }
 
     bool fini= false;
-
-
 
     if (sigaction(SIGCHLD, &sa, NULL) < 0) {
         perror("sigaction");
         exit(EXIT_FAILURE);
     }
+
+    // Etape 12 non fonctionnelle
+    //signal(SIGINT, SIG_IGN);
+    //signal(SIGTSTP, SIG_IGN);
+    
+    
     while (!fini) {
         printf("> ");
         struct cmdline *commande= readcmd();
@@ -133,13 +142,6 @@ int main(void) {
                 printf("erreur saisie de la commande : %s\n", commande->err);
         
             } else {
-
-                /* Pour le moment le programme ne fait qu'afficher les commandes 
-                   tapees et les affiche à l'ecran. 
-                   Cette partie est a modifier pour considerer l'execution de ces
-                   commandes 
-                */ 
-               // Fait au travers de execvp
                 int indexseq= 0;
                 char **cmd;
 
@@ -166,6 +168,18 @@ int main(void) {
                                 exit(EXIT_FAILURE);
 
                             } else if (pid == 0) {
+                                // Etape 12: détachement processus fils
+                                /*
+                                setpgrp();
+                                setpgid(0, 0);
+                                
+                                if (commande->backgrounded == NULL) {
+                                    tcsetpgrp(STDIN_FILENO, getpid());
+                                }
+                                signal(SIGINT, SIG_DFL);
+                                signal(SIGTSTP, SIG_DFL);
+                                */
+                                
                                 // Etape 3.2: Execution commande
                                 execvp(cmd[0], cmd);
                                 exit(EXIT_FAILURE);
@@ -177,6 +191,11 @@ int main(void) {
 
                                 // Etape 4: Fond de tache
                                 if (commande->backgrounded== NULL) { // On attend le fils
+                                    // Etape 12
+                                    /*
+                                    setpgid(pid, pid);
+                                    tcsetpgrp(STDIN_FILENO, pid);
+                                    */
                                     int status;
                                     //waitpid(pid, &status, 0); // Etape 5
                                     
@@ -187,7 +206,8 @@ int main(void) {
                                         // on attend la fin du processus et on ne recupere la main que si le processus est termine
                                         pause();
                                                                        
-                                     }           
+                                     }
+                                     //tcsetpgrp(STDIN_FILENO, getpgrp()); 
                                 } else {
                                     printf("Commande exécutée en arrière-plan (PID %d)\n", pid);                            
                                 }
